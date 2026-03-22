@@ -1,7 +1,7 @@
 body {
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f4f4f4;
 }
 
 h1 {
@@ -31,4 +31,12 @@ button:hover {
 
 #status {
     margin-top: 20px;
+    font-weight: bold;
+}
+
+button:last-child {
+    margin-top: 20px;
+    width: 150px;
+    height: 40px;
+    font-size: 1em;
 }
