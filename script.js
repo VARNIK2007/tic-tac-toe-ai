@@ -4,16 +4,15 @@ let board = [
     ["", "", ""]
 ];
 
-let currentPlayer = "X"; // Player
 let gameOver = false;
 
 function makeMove(row, col) {
     if (board[row][col] !== "" || gameOver) return;
 
-    board[row][col] = currentPlayer;
+    board[row][col] = "X";
     updateUI();
 
-    if (checkWinner(currentPlayer)) {
+    if (checkWinner("X")) {
         document.getElementById("status").innerText = "You win!";
         gameOver = true;
         return;
@@ -25,26 +24,29 @@ function makeMove(row, col) {
         return;
     }
 
-    // AI move
-    aiMove();
+    setTimeout(aiMove, 300); // small delay for realism
 }
 
 function aiMove() {
-    let emptyCells = [];
+    let bestScore = -Infinity;
+    let move;
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             if (board[i][j] === "") {
-                emptyCells.push({ i, j });
+                board[i][j] = "O";
+                let score = minimax(board, 0, false);
+                board[i][j] = "";
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = { i, j };
+                }
             }
         }
     }
 
-    if (emptyCells.length === 0) return;
-
-    let move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
     board[move.i][move.j] = "O";
-
     updateUI();
 
     if (checkWinner("O")) {
@@ -56,6 +58,43 @@ function aiMove() {
     if (isDraw()) {
         document.getElementById("status").innerText = "It's a draw!";
         gameOver = true;
+    }
+}
+
+function minimax(board, depth, isMaximizing) {
+    if (checkWinner("O")) return 10 - depth;
+    if (checkWinner("X")) return depth - 10;
+    if (isDraw()) return 0;
+
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === "") {
+                    board[i][j] = "O";
+                    let score = minimax(board, depth + 1, false);
+                    board[i][j] = "";
+                    bestScore = Math.max(score, bestScore);
+                }
+            }
+        }
+        return bestScore;
+
+    } else {
+        let bestScore = Infinity;
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === "") {
+                    board[i][j] = "X";
+                    let score = minimax(board, depth + 1, true);
+                    board[i][j] = "";
+                    bestScore = Math.min(score, bestScore);
+                }
+            }
+        }
+        return bestScore;
     }
 }
 
@@ -72,7 +111,6 @@ function updateUI() {
 }
 
 function checkWinner(player) {
-    // Rows & Columns
     for (let i = 0; i < 3; i++) {
         if (board[i][0] === player && board[i][1] === player && board[i][2] === player)
             return true;
@@ -80,7 +118,6 @@ function checkWinner(player) {
             return true;
     }
 
-    // Diagonals
     if (board[0][0] === player && board[1][1] === player && board[2][2] === player)
         return true;
     if (board[0][2] === player && board[1][1] === player && board[2][0] === player)
@@ -91,4 +128,15 @@ function checkWinner(player) {
 
 function isDraw() {
     return board.flat().every(cell => cell !== "");
+}
+
+function restartGame() {
+    board = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""]
+    ];
+    gameOver = false;
+    document.getElementById("status").innerText = "";
+    updateUI();
 }
