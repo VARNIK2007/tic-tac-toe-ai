@@ -136,7 +136,12 @@ function restartGame() {
         ["", "", ""],
         ["", "", ""]
     ];
+
     gameOver = false;
+
     document.getElementById("status").innerText = "";
-    updateUI();
+
+    // Clear all buttons manually
+    let buttons = document.querySelectorAll("#board button");
+    buttons.forEach(btn => btn.innerText = "");
 }
