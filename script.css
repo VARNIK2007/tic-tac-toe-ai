@@ -1,42 +1,68 @@
 body {
     text-align: center;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+    color: white;
 }
 
 h1 {
     margin-top: 20px;
+    font-size: 2.5em;
 }
 
 #board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    gap: 5px;
+    grid-template-columns: repeat(3, 110px);
+    gap: 10px;
     justify-content: center;
-    margin: 20px auto;
+    margin: 30px auto;
 }
 
 button {
-    width: 100px;
-    height: 100px;
-    font-size: 2em;
+    width: 110px;
+    height: 110px;
+    font-size: 2.5em;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
     cursor: pointer;
-    background-color: white;
-    border: 2px solid #333;
+    background: #2c2c3e;
+    color: white;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #ddd;
+    transform: scale(1.05);
+    background: #44446a;
+}
+
+/* X styling */
+.x {
+    background: #4caf50; /* green */
+    color: white;
+}
+
+/* O styling */
+.o {
+    background: #f44336; /* red */
+    color: white;
 }
 
 #status {
     margin-top: 20px;
-    font-weight: bold;
+    font-size: 1.3em;
 }
 
+/* Restart button */
 button:last-child {
     margin-top: 20px;
-    width: 150px;
-    height: 40px;
-    font-size: 1em;
+    width: 180px;
+    height: 45px;
+    font-size: 1.1em;
+    background: #ff9800;
+    border-radius: 10px;
+}
+
+button:last-child:hover {
+    background: #e68900;
 }
