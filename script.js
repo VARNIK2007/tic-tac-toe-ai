@@ -99,12 +99,25 @@ function minimax(board, depth, isMaximizing) {
 }
 
 function updateUI() {
-    let buttons = document.querySelectorAll("#board button");
+    let buttons = document.querySelectorAll(".cell");
     let index = 0;
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            buttons[index].innerText = board[i][j];
+            let cell = board[i][j];
+
+            buttons[index].innerText = cell;
+
+            // Remove old styles
+            buttons[index].classList.remove("x", "o");
+
+            // Apply new styles
+            if (cell === "X") {
+                buttons[index].classList.add("x");
+            } else if (cell === "O") {
+                buttons[index].classList.add("o");
+            }
+
             index++;
         }
     }
